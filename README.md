@@ -1,6 +1,10 @@
 ChromeSnifferPlus
 =================
 
+[![](https://img.shields.io/github/issues/justjavac/ChromeSnifferPlus.svg)](https://github.com/justjavac/ChromeSnifferPlus/issues) [![](https://img.shields.io/github/release/justjavac/ChromeSnifferPlus.svg)](https://github.com/justjavac/ChromeSnifferPlus/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/justjavac/ChromeSnifferPlus/total.svg)]()
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fhhdlnnepfjhlhilgmeepgkhjmhhhjkh.svg)](https://chrome.google.com/webstore/detail/chrome-sniffer-plus/fhhdlnnepfjhlhilgmeepgkhjmhhhjkh)
+
 ### Introduction
 
 This extension is an extended version of the Appspector(ChromeSniffer).
@@ -22,17 +26,16 @@ view [change log](./changelog.md)
 
 [中文介绍](./README_zh_CN.md)
 
-### TODO
+### Install
 
-- [ ] YII
-- [ ] CodeIgniter
+- [Chrome Web Store](https://chrome.google.com/webstore/detail/chrome-sniffer-plus/fhhdlnnepfjhlhilgmeepgkhjmhhhjkh)
 
 ### Screenshot
 
 ![ChromeSnifferPlus Screenshot](./screenshot/shot1.png) &nbsp;&nbsp;&nbsp;&nbsp;
 ![ChromeSnifferPlus Screenshot](./screenshot/shot2.png) &nbsp;&nbsp;&nbsp;&nbsp;
 ![ChromeSnifferPlus Screenshot](./screenshot/shot3.png) &nbsp;&nbsp;&nbsp;&nbsp;
-![ChromeSnifferPlus Screenshot](./screenshot/shot4.png) 
+![ChromeSnifferPlus Screenshot](./screenshot/shot4.png)
 
 ### Credits
 

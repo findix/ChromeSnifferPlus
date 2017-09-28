@@ -1,4 +1,54 @@
-## 更新日志
+## Change Logs
+
+### 2.7.0
+
+- upload data where popup
+- modified frequency
+
+### 2.6.0
+
+- fix bugs
+
+### 2.4.0
+
+- Pusher
+
+### 2.3.0
+
+- ColorThief
+- jQuery.hotkeys
+- spin.js
+- babel
+- FastClick
+- twemoji
+- Mithril
+- s9e.TextFormatter
+
+### 2.2.0
+
+- 修改上传频率
+
+### 2.0.0
+
+- popup layout
+
+### 1.6.0
+
+- check IP
+
+### 1.5.0
+
+- 统计提交
+- KindEditor
+
+### 1.4.0
+
+- Flarum
+
+### 1.3.0
+
+- moment
+- 添加葡萄牙语 pt_BR
 
 ### 1.2.0
 

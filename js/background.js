@@ -24,7 +24,7 @@ var knownHeaders = {
     },
     'server': {
         'Tengine': /Tengine(.*)/,
-        'Apache': /Apache[^-]\/?(.*)/,
+        'Apache': /Apache[^-]?\/?(.*)/,
         'Tomcat': /Apache-Coyote\/?.*/,
         'GitHub': /GitHub.com/,
         'Domino': /Lotus-Domino/,
@@ -80,6 +80,11 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     // 'result' event issued by main.js once app identification is complete
     if (request.msg == 'result') {
         var thisTab = tabinfo[sender.tab.id];
+        
+        if ( ! thisTab) {
+            return;
+        }
+
         thisTab['apps'] = request.apps;
 
         // load in any apps we discovered from headers:
@@ -89,45 +94,70 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
         // change the tab icon
         var mainApp = null;
+        var count = 0;
 
         for (var app in request.apps) {
+            count++;
+
             if (mainApp === null) {
                 mainApp = app;
                 continue;
             }
+        }
 
-            if (appinfo[app] && appinfo[app].priority) {
-                if (!appinfo[mainApp].priority) {
-                    mainApp = app;
-                } else if (appinfo[mainApp].priority > appinfo[app].priority) {
-                    mainApp = app;
+        if (count > 0) {
+            var mainAppInfo = appinfo[mainApp];
+            if (mainAppInfo) { // lazy bug
+                var appTitle = mainAppInfo.title ? mainAppInfo.title: mainApp;
+
+                if (request.apps[mainApp] != "-1") {
+                    appTitle = mainApp + ' ' + request.apps[mainApp];
+                }
+
+                chrome.pageAction.setIcon({
+                    tabId: sender.tab.id,
+                    path: 'apps/' + mainAppInfo.icon
+                });
+                chrome.pageAction.setTitle({
+                    tabId: sender.tab.id,
+                    title: appTitle
+                });
+            }
+
+            if ( ! /^(http|https):\/\/(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])/.test(sender.tab.url)
+                    && ! /^(http|https):\/\/localhost/.test(sender.tab.url)) {
+                data = {
+                    "libs": JSON.stringify(thisTab['apps']), 
+                    "ip": thisTab['ip'], 
+                    "add_time": +new Date
+                };
+                localStorage.setItem(sender.tab.url, JSON.stringify(data));
+
+                if (localStorage.length > 100) {
+                    window.CollecUsage(function(){
+                        localStorage.clear();
+                    });
                 }
             }
+
+            chrome.pageAction.show(sender.tab.id);
         }
-
-        var mainAppInfo = appinfo[mainApp];
-        if (mainAppInfo) { // lazy bug
-            var appTitle = mainAppInfo.title ? mainAppInfo.title: mainApp;
-
-            if (request.apps[mainApp] != "-1") {
-                appTitle = mainApp + ' ' + request.apps[mainApp];
-            }
-
-            chrome.pageAction.setIcon({
-                tabId: sender.tab.id,
-                path: 'apps/' + mainAppInfo.icon
-            });
-            chrome.pageAction.setTitle({
-                tabId: sender.tab.id,
-                title: appTitle
-            });
-        }
-
-        chrome.pageAction.show(sender.tab.id);
         sendResponse({});
     } else if (request.msg == 'get') {
         // Request for 'get' comes from the popup page, asking for the list of apps
         var apps = tabinfo[request.tab];
         sendResponse(apps);
     }
+});
+
+chrome.runtime.onStartup.addListener(function(){
+    window.CollecUsage(function(){
+        localStorage.clear();
+    });
+});
+
+chrome.runtime.onSuspend.addListener(function(){
+    window.CollecUsage(function(){
+        localStorage.clear();
+    });
 });

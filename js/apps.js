@@ -9,7 +9,7 @@
 
 var appinfo = {
     // ==== zh-cn ====
-    '\u767e\u5ea6\u7edf\u8ba1': { // 百度统计
+    '\u767e\u5ea6\u7edf\u8ba1': {
         icon: 'bdtongji.ico',
         url: 'http://tongji.baidu.com',
         priority: 3
@@ -24,22 +24,22 @@ var appinfo = {
         url: 'http://www.bshare.cn',
         priority: 2.9
     },
-    '\u767e\u5ea6\u5206\u4eab': { // 百度分享
+    '\u767e\u5ea6\u5206\u4eab': {
         icon: 'baidushare.ico',
         url: 'http://share.baidu.com',
         priority: 2.9
     },
-    '\u591a\u8bf4': { // 多说
+    '\u591a\u8bf4': {
         icon: 'duoshuo.ico',
         url: 'http://www.duoshuo.com',
         priority: 2.9
     },
-    '\u53cb\u8350': { // 友荐 
+    '\u53cb\u8350': {
         icon: 'ujian.ico',
         url: 'http://www.ujian.cc',
         priority: 2.9
     },
-    '\u53cb\u8a00': { // 友言 
+    '\u53cb\u8a00': {
         icon: 'uyan.ico',
         url: 'http://www.uyan.cc',
         priority: 2.9
@@ -49,7 +49,7 @@ var appinfo = {
         url: 'http://www.jiathis.com',
         priority: 2.9
     },
-    '\u65e0\u89c5': { // 无觅相关文章插件
+    '\u65e0\u89c5': {
         icon: 'wumii.ico',
         url: 'http://www.wumii.com/widget/getWidget',
         priority: 2.9
@@ -59,7 +59,7 @@ var appinfo = {
         url: 'http://segmentfault.com',
         priority: 2.9
     },
-    '\u4e03\u725b\u4e91\u5b58\u50a8\u52a0\u901f': { // 七牛云存储加速
+    '\u4e03\u725b\u4e91\u5b58\u50a8\u52a0\u901f': {
         icon: 'qiniu.png',
         url: 'http://www.qiniu.com',
         priority: 0.9
@@ -136,6 +136,11 @@ var appinfo = {
         url: 'http://www.phpbb.com',
         priority: 1
     },
+    'Flarum': {
+        icon: 'flarum.png',
+        url: 'http://flarum.org',
+        priority: 1
+    },
     'IPB': {
         title: 'Invision Power Board',
         icon: 'IPB.ico',
@@ -160,8 +165,14 @@ var appinfo = {
 
     'Drupal': {
         icon: 'Drupal.ico',
-        url: 'http://drupal.org',
+        url: 'https://www.drupal.org/',
         priority: 1
+    },
+    'Drupal8': {
+        title: 'Drupal',
+        icon: 'Drupal8.ico',
+        url: 'https://www.drupal.org/8',
+        priority: 0.9 // higher priority compared with Drupal
     },
     'Ubercart': {
         icon: 'Ubercart.ico',
@@ -226,6 +237,12 @@ var appinfo = {
     'OpenACS': {
         icon: 'openacs.ico',
         url: 'http://openacs.org',
+        priority: 1
+    },
+
+    'Pusher': {
+        icon: 'pusher.ico',
+        url: 'https://pusher.com',
         priority: 1
     },
 
@@ -467,6 +484,11 @@ var appinfo = {
     },
 
     // ==== js framework ====
+    'KindEditor':{
+        icon: 'kindeditor.ico',
+        url: 'http://kindeditor.net',
+        priority: 2
+    },
     'Highcharts': {
         icon: 'highcharts.png',
         url: 'http://www.highcharts.com',
@@ -527,6 +549,41 @@ var appinfo = {
         url: 'http://yuilibrary.com',
         priority: 2
     },
+    "ColorThief": {
+        url: "https://github.com/lokesh/color-thief",
+        priority: 2
+    },
+    "jQuery.hotkeys": {
+        "url": "https://github.com/jeresig/jquery.hotkeys",
+        "priority": 1.9
+    },
+    "spin.js": {
+        "icon": "spin.js.ico",
+        "url": "http://spin.js.org/",
+        "priority": 2
+    },
+    "babel":{
+        "icon": "babeljs.ico",
+        "url": "https://babeljs.io",
+        "priority": 2
+    },
+    "FastClick":{
+        "url": "https://github.com/ftlabs/fastclick",
+        "priority": 2
+    },
+    "twemoji":{
+        "url": "https://github.com/twitter/twemoji",
+        "priority": 2
+    },
+    "Mithril":{
+        "icon": "mithril.png",
+        "url": "http://mithril.js.org",
+        "priority": 2
+    },
+    "s9e.TextFormatter":{
+        "url": "https://github.com/s9e/TextFormatter",
+        "priority": 2
+    },
     'Cappuccino': {
         icon: 'cappuccino.png',
         url: 'http://cappuccino.org/',
@@ -542,14 +599,29 @@ var appinfo = {
         url: 'http://spinejs.com',
         priority: 1.9
     },
-    'Angular': {
+    'AngularJs': {
         icon: 'angular.ico',
         url: 'http://angularjs.org/',
+        priority: 1.5
+    },
+    'Angular': {
+        icon: 'angular.ico',
+        url: 'http://angular.io/',
+        priority: 1.5
+    },
+    'Ionic': {
+        icon: 'ionic.ico',
+        url: 'http://ionicframework.com/',
         priority: 1.5
     },
     'D3': {
         icon: 'D3.svg',
         url: 'http://d3js.org/',
+        priority: 2
+    },
+    'moment': {
+        icon: 'moment.png',
+        url: 'http://momentjs.com/',
         priority: 2
     },
 
@@ -609,13 +681,13 @@ var appinfo = {
         priority: 2.9
     },
     'Backbone.js': {
-        icon: 'Backbone.png',
-        url: 'http://documentcloud.github.com/backbone/',
+        icon: 'backbonejs.ico',
+        url: 'http://backbonejs.org',
         priority: 1.9
     },
     'Underscore.js': {
-        icon: 'Underscore.png',
-        url: 'http://documentcloud.github.com/underscore/',
+        icon: 'underscorejs.ico',
+        url: 'http://underscorejs.org/',
         priority: 2.9
     },
 
@@ -753,7 +825,7 @@ var appinfo = {
     },
     'Bootstrap': {
         icon: 'bootstrap.ico',
-        url: 'http://twitter.github.com/bootstrap/',
+        url: 'http://getbootstrap.com',
         priority: 5
     },
     'Ning': {
@@ -869,7 +941,46 @@ var appinfo = {
         url: 'http://nette.org/',
         priority: 1.5
     },
-
+    'Font Awesome': {
+        icon: 'font-awesome.ico',
+        url: 'https://fortawesome.github.io/Font-Awesome/',
+        priority: 5
+    },
+    'polymer': {
+        icon: 'polymer.ico',
+        url: 'https://github.com/Polymer/polymer',
+        priority: 2
+    },
+    'Vue': {
+        icon: 'Vue.ico',
+        url: 'http://vuejs.org/',
+        priority: 2
+    },
+    'RxJs': {
+        icon: 'RxJs.ico',
+        url: 'https://github.com/Reactive-Extensions/RxJS',
+        priority: 2
+    },
+    'Lo-dash': {
+        icon: 'Lo-dash.ico',
+        url: 'https://lodash.com/',
+        priority: 3
+    },
+    'Webpack': {
+        icon: 'Webpack.ico',
+        url: 'https://github.com/webpack/webpack',
+        priority: 3
+    },
+    'Django': {
+        icon: 'django.ico',
+        url: 'https://www.djangoproject.com/',
+        priority: 1
+    },
+    'React': {
+        icon: 'React.ico',
+        url: 'https://facebook.github.io/react/',
+        priority: 3
+    },
     // ==== misc ====
     '': { // default
         icon: 'unknown.jpg',

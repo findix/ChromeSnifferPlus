@@ -22,6 +22,8 @@
         'generator': {
             'Joomla': /joomla!?\s*([\d\.]+)?/i,
             'vBulletin': /vBulletin\s*(.*)/i,
+            'Drupal8': /Drupal (8[\d\.]*)/i,    // Drupal 8 logo.
+            'Drupal': /Drupal ([1-7][\d\.]*)/i, // Original Drupal logo.
             'WordPress': /WordPress\s*(.*)/i,
             'XOOPS': /xoops/i,
             'Plone': /plone/i,
@@ -102,7 +104,7 @@
         '\u591a\u8bf4': /static\.duoshuo\.com\/embed\.js/,
         // 多说
         '\u53cb\u8350': /v\d\.ujian\.cc\/code\/ujian\.js/,
-        // 友荐 
+        // 友荐
         '\u53cb\u8a00': /v\d\.uyan\.cc\/(code\/uyan\.js|js\/iframe\.js)/,
         // 友言
         'JiaThis': /v\d\.jiathis\.com\/code(_mini)?\/(jiathis|jia)/,
@@ -188,14 +190,16 @@
         'Moodle': /<link[^>]*\/theme\/standard\/styles.php".*>|<link[^>]*\/theme\/styles.php\?theme=.*".*>/,
         '1c-bitrix': /<link[^>]*\/bitrix\/.*?>/i,
         'OpenCMS': /<link[^>]*\.opencms\..*?>/i,
-        'HumansTxt': /<link[^>]*rel=['"]?author['"]?/i,
+        'HumansTxt': /<link[^>]*href=['"]?\S*?humans\.txt.*?['"].*?\>/i,
         'GoogleFontApi': /ref=["']?http:\/\/fonts.googleapis.com\//i,
         'Prostores': /-legacycss\/Asset">/,
         'osCommerce': /(product_info\.php\?products_id|_eof \/\/-->)/,
         'OpenCart': /index.php\?route=product\/product/,
-        '\u4e03\u725b\u4e91\u5b58\u50a8\u52a0\u901f': /<(link|script|img)[^>]+(qiniudn\.com|qbox\.me|clouddn\.com|qiniu\.com)[^>]+>/i,
+        '\u4e03\u725b\u4e91\u5b58\u50a8\u52a0\u901f': /<(link|script|img)[^>]+(qiniudn\.com|qbox\.me|clouddn\.com|qiniu\.com|qnssl\.com)[^>]+>/i,
         // 七牛云存储加速
-        'Shibboleth': /<form action="\/idp\/Authn\/UserPassword" method="post">/
+        'Shibboleth': /<form action="\/idp\/Authn\/UserPassword" method="post">/,
+        'Django': /<input[^>]*name=[\"']csrfmiddlewaretoken[\"'][^>]*>/,
+        'React': /<[^>]+data-react/
     };
 
     for (var t in text_tests) {
@@ -216,7 +220,7 @@
             return window.Zepto && window.Zepto.fn;
         },
         'CodeIgniter': function() {
-            return document.cookie.indexOf("cisession") != -1;
+            return document.cookie.indexOf("cisession") != -1 || document.cookie.indexOf("ci_session") != -1;
         },
         'Java': function() {
             return document.cookie.indexOf("JSESSIONID") != -1;
@@ -224,8 +228,20 @@
         'Domino': function() {
             return document.cookie.indexOf("LtpaToken") != -1 || document.cookie.indexOf("DomAuthSessId") != -1;
         },
+        'Drupal8': function() {
+            // Do not JS test if Drupal was already detected.
+            if (_apps.Drupal8 !== undefined || _apps.Drupal !== undefined) return;
+            // To ensure that the D8 logo is used, we must execute test here.
+            // This way it doesn't test the normal "Drupal" one.
+            return 'Drupal' in window && Drupal.throwError !== undefined && '8';
+        },
         'Drupal': function() {
+            // Do not JS test if Drupal was already detected.
+            if (_apps.Drupal8 !== undefined || _apps.Drupal !== undefined) return;
             return window.Drupal;
+        },
+        'Flarum': function() {
+            return window.System && System.has && System.has('flarum/app');
         },
         'TomatoCMS': function() {
             return window.Tomato;
@@ -248,11 +264,41 @@
         'jQuery': function() {
             return window.jQuery;
         },
+        "ColorThief": function() {
+            return window.ColorThief;
+        },
+        "jQuery.hotkeys": function() {
+            return window.jQuery && jQuery.hotkeys;
+        },
+        "spin.js": function() {
+            return (window.jQuery && jQuery.fn && jQuery.fn.spin) || window.Spinner;
+        },
+        "babel":function() {
+            return window.babelHelpers;
+        },
+        "FastClick":function() {
+            return window.FastClick;
+        },
+        "twemoji":function() {
+            return window.twemoji;
+        },
+        "Mithril":function() {
+            return window.m && typeof window.m.version === 'function';
+        },
+        "s9e.TextFormatter": function() {
+            return window.s9e && s9e.TextFormatter;
+        },
+        "Pusher": function() {
+            return window.Pusher && Pusher.Channel;
+        },
         'jQuery UI': function() {
             return window.jQuery && window.jQuery.ui;
         },
         'Typekit': function() {
             return window.Typekit;
+        },
+        'KindEditor': function() {
+            return window.KindEditor;
         },
         'Facebook': function() {
             return window.FB && window.FB.api;
@@ -339,13 +385,19 @@
             return window.Backbone && typeof(window.Backbone.sync) === 'function';
         },
         'Underscore.js': function() {
-            return window._ && typeof(window._.identity) === 'function' && window._.identity('abc') === 'abc';
+            return window._ && typeof(window._.identity) === 'function' && window._.identity('abc') === 'abc' && window._.name === '_';
         },
         'Spine': function() {
             return window.Spine;
         },
-        'Angular': function() {
+        'AngularJs': function() {
             return window.angular;
+        },
+        'Angular': function() {
+            return window.ng;
+        },
+        'Ionic': function () {
+            return window.Ionic || window.ionic;
         },
         'Ning': function() {
             return window.ning;
@@ -364,6 +416,27 @@
         },
         'D3': function() {
             return window.d3;
+        },
+        'moment': function() {
+            return window.moment;
+        },
+        'RxJs': function() {
+            return window.Rx;
+        },
+        'Vue': function() {
+            return window.Vue;
+        },
+        'polymer':function () {
+            return window.Polymer;
+        },
+        'avalon':function () {
+            return window.avalon;
+        },
+        'Lo-dash':function () {
+            return window._ && window._.name === 'lodash';
+        },
+        'Webpack':function () {
+            return window.webpackJsonp;
         }
     };
 
@@ -383,6 +456,15 @@
         'Prototype': function() {
             if ('Prototype' in window && Prototype.Version !== undefined) return window.Prototype.Version;
         },
+        'Drupal': function() {
+            // Drupal does not provide detectable versions other than its major (for security purposes).
+            // However, major versions can be deduced from methods/properties avilable in Drupal global.
+            if ('Drupal' in window && Drupal.detachBehaviors !== undefined) return '7';
+            if ('Drupal' in window && Drupal.behaviors !== undefined) return '6';
+            if ('Drupal' in window && Drupal.extend !== undefined) return '5';
+            // There is nothing in JS DOM parsing that can disquish versions older than 4.7.
+            return '4.7 (or older)';
+        },
         'script.aculo.us': function() {
             if ('Scriptaculous' in window && Scriptaculous.Version !== undefined) return window.Scriptaculous.Version;
         },
@@ -393,13 +475,22 @@
             if (typeof jQuery === 'function' && jQuery.ui && jQuery.ui.version !== undefined) return jQuery.ui.version;
         },
         'Dojo': function() {
-            if (typeof dojo === 'object' && dojo.version.toString() !== undefined) return dojo.version;
+            if (typeof dojo === 'object' && dojo.version.toString() !== undefined) return dojo.version.toString();
         },
         'YUI': function() {
             if (typeof YAHOO === 'object' && YAHOO.VERSION !== undefined) return YAHOO.VERSION;
         },
         'YUI 3': function() {
             if ('YUI' in window && typeof YUI === 'function' && YUI().version !== undefined) return YUI().version;
+        },
+        "jQuery.hotkeys": function() {
+            return window.jQuery && jQuery.hotkeys && jQuery.hotkeys.version;
+        },
+        "Mithril": function() {
+            return window.m && typeof window.m.version ==='function' && window.m.version();
+        },
+        "Pusher": function() {
+            return window.Pusher && Pusher.Channel && Pusher.VERSION;
         },
         'MooTools': function() {
             if (typeof MooTools === 'object' && MooTools.version !== undefined) return MooTools.version;
@@ -425,11 +516,42 @@
         'Spine': function() {
             if (window.Spine && window.Spine.version) return window.Spine.version;
         },
-        'Angular': function() {
+        'AngularJs': function() {
             if (window.angular && window.angular.version && 'full' in window.angular.version) return window.angular.version.full;
+        },
+        'Angular': function() {
+            if (window.ng && window.document.body && window.document.body.children.length > 0) {
+                var children = new Array(window.document.body.children[0]);
+                var rootCmp = children.find( function (e) {
+                    return e.attributes && 'ng-version' in e.attributes;
+                });
+                return rootCmp.attributes['ng-version'].nodeValue;
+            }
+        },
+        'Ionic': function () {
+          if(window.Ionic && window.Ionic.version) return window.Ionic.version;
+          if(window.ionic && window.ionic.version) return window.ionic.version;
         },
         'D3': function() {
             if (window.d3 && window.d3.version) return window.d3.version;
+        },
+        'KindEditor': function() {
+            return window.KindEditor && window.KindEditor.VERSION;
+        },
+        'moment': function() {
+            if (window.moment && window.moment.version) return window.moment.version;
+        },
+        'Vue': function() {
+            if(window.Vue) return window.Vue.version;
+        },
+        'polymer':function () {
+            if(window.Polymer) return window.Polymer.version;
+        },
+        'avalon':function () {
+            if(window.avalon) return window.avalon.version;
+        },
+        'Lo-dash':function () {
+            if(window._ && window._.name === 'lodash') return window._.VERSION;
         }
     };
 
@@ -449,9 +571,9 @@
     // 9: detect based on defined css classes
     // 根据 css 类判断
     var cssClasses = {
-        'Bootstrap': ['hero-unit', '.carousel-control', '[class^="icon-"]:last-child']
+        'Bootstrap': ['hero-unit', '.carousel-control', '[class^="icon-"]:last-child'],
+        'Font Awesome': ['.fa', '.fa-', '.fa-lg']
     };
-
     for (var t in cssClasses) {
         if (t in _apps) continue;
 
@@ -476,19 +598,18 @@
                 if (act === true) break;
             }
 
-            found = found & act;
+            found = found && act;
         }
 
         if (found === true) {
             _apps[t] = -1;
-        } else {
-            break;
         }
     }
 
     // 10: 根据引用的css文件的href判断
     var cssLinkName = {
-        'Bootstrap': /bootstrap(-theme)?\.(min\.)?css/
+        'Bootstrap': /bootstrap(-theme)?\.(min\.)?css/,
+        'Font Awesome': /font-awesome\.(min\.)?css/
     };
 
     cssLinks = document.styleSheets;
